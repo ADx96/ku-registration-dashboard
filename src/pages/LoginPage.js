@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet-async';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Container, Typography, Divider } from '@mui/material';
@@ -44,10 +43,6 @@ export default function LoginPage() {
 
   return (
     <>
-      <Helmet>
-        <title> التسجيل </title>
-      </Helmet>
-
       <StyledRoot>
         <Logo
           sx={{
@@ -63,7 +58,7 @@ export default function LoginPage() {
               مرحبًا، اهلا بعودتك
             </Typography>
             <img
-              src='/assets/illustrations/illustration_login.png'
+              src='/assets/illustrations/illustration_login.jpg'
               alt='login'
             />
           </StyledSection>
