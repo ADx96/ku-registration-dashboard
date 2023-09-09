@@ -36,11 +36,13 @@ export default function AppTasks({ title, subheader, list, ...other }) {
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
       <Controller
-        name="taskCompleted"
+        name='taskCompleted'
         control={control}
         render={({ field }) => {
           const onSelected = (task) =>
-            field.value.includes(task) ? field.value.filter((value) => value !== task) : [...field.value, task];
+            field.value.includes(task)
+              ? field.value.filter((value) => value !== task)
+              : [...field.value, task];
 
           return (
             <>
@@ -84,27 +86,23 @@ function TaskItem({ task, checked, onChange }) {
 
   const handleMarkComplete = () => {
     handleCloseMenu();
-    console.log('MARK COMPLETE', task.id);
   };
 
   const handleShare = () => {
     handleCloseMenu();
-    console.log('SHARE', task.id);
   };
 
   const handleEdit = () => {
     handleCloseMenu();
-    console.log('EDIT', task.id);
   };
 
   const handleDelete = () => {
     handleCloseMenu();
-    console.log('DELETE', task.id);
   };
 
   return (
     <Stack
-      direction="row"
+      direction='row'
       sx={{
         px: 2,
         py: 0.75,
@@ -120,7 +118,12 @@ function TaskItem({ task, checked, onChange }) {
         sx={{ flexGrow: 1, m: 0 }}
       />
 
-      <IconButton size="large" color="inherit" sx={{ opacity: 0.48 }} onClick={handleOpenMenu}>
+      <IconButton
+        size='large'
+        color='inherit'
+        sx={{ opacity: 0.48 }}
+        onClick={handleOpenMenu}
+      >
         <Iconify icon={'eva:more-vertical-fill'} />
       </IconButton>
 

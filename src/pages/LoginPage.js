@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 // @mui
 import { styled } from '@mui/material/styles';
-import {  Container, Typography, Divider,  } from '@mui/material';
+import { Container, Typography, Divider } from '@mui/material';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
@@ -45,7 +45,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Login | Minimal UI </title>
+        <title> التسجيل </title>
       </Helmet>
 
       <StyledRoot>
@@ -59,22 +59,25 @@ export default function LoginPage() {
 
         {mdUp && (
           <StyledSection>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+            <Typography variant='h3' sx={{ px: 5, mt: 10, mb: 5 }}>
+              مرحبًا، اهلا بعودتك
             </Typography>
-            <img src="/assets/illustrations/illustration_login.png" alt="login" />
+            <img
+              src='/assets/illustrations/illustration_login.png'
+              alt='login'
+            />
           </StyledSection>
         )}
 
-        <Container maxWidth="sm">
+        <Container maxWidth='sm'>
           <StyledContent>
-            <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+            <Typography variant='h4' gutterBottom>
+              Ku-Registration قم بتسجيل الدخول إلى
             </Typography>
 
             <Divider sx={{ my: 3 }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              Sign In
+              <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+                تسجيل الدخول
               </Typography>
             </Divider>
 
