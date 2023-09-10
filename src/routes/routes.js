@@ -11,6 +11,7 @@ import RegistrationPage from '../pages/RegistrationPage';
 import ReportsPage from '../pages/ReportsPage';
 import ProtectedRoute from './ProtectedRoute';
 import PrivateRoute from './PrivateRoute';
+import RegistrationDetailsPage from 'src/pages/RegistrationDetailsPage';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,10 @@ export default function Router() {
         {
           path: 'registrations',
           element: <ProtectedRoute children={<RegistrationPage />} />,
+        },
+        {
+          path: 'registrations/:id',
+          element: <ProtectedRoute children={<RegistrationDetailsPage />} />,
         },
         {
           path: 'reports',

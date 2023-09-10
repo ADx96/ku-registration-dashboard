@@ -17,6 +17,23 @@ const registrationApi = {
     return data;
   },
 
+  getItem: async (params) => {
+    const id = params;
+    const { data } = await axiosInstance.get(`/registrations/${id}`, {
+      params: {
+        populate: '*',
+      },
+    });
+    return data.data.attributes;
+  },
+  getCountItems: async (params) => {
+    const { data } = await axiosInstance.get('/registrations', {
+      params: {
+        ...params,
+      },
+    });
+    return data;
+  },
   // Update
   updateItem: async (id, sendData) => {
     const { data } = await axiosInstance.put(`/registrations/${id}`, sendData);

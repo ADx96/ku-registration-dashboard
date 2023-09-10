@@ -1,28 +1,75 @@
 import { Helmet } from 'react-helmet-async';
-import { faker } from '@faker-js/faker';
 // @mui
 import { Grid, Container, Typography, CircularProgress } from '@mui/material';
 // components
 import {
   AppNewsUpdate,
-  AppOrderTimeline,
   AppWebsiteVisits,
   AppWidgetSummary,
   AppConversionRates,
 } from '../sections/@dashboard/app';
-import { useGetRegistrations } from 'src/hooks/useRegistrationData';
+import {
+  useGetRegistrations,
+  useGetRegistrationsCount,
+} from 'src/hooks/useRegistrationData';
 
 // ----------------------------------------------------------------------
 
-export default function DashboardAppPage() {
-  const params = {
-    pagination: {
-      limit: 5,
-      sort: 'createdAt:desc',
+const params = {
+  pagination: {
+    limit: 5,
+    sort: 'createdAt:desc',
+  },
+};
+
+const successParams = {
+  filters: {
+    status: {
+      $eq: 'success',
     },
-  };
+  },
+};
+
+const rejectedParams = {
+  filters: {
+    status: {
+      $eq: 'rejected',
+    },
+  },
+};
+const pendingParams = {
+  filters: {
+    status: {
+      $eq: 'pending',
+    },
+  },
+};
+const underReviewParams = {
+  filters: {
+    status: {
+      $eq: 'underreview',
+    },
+  },
+};
+export default function DashboardAppPage() {
   const { data, isLoading } = useGetRegistrations(params);
+
+  const { data: successCountData, isLoading: isLoadingSuccessCount } =
+    useGetRegistrationsCount(successParams, 'success');
+
+  const { data: pendingCountData, isLoading: isLoadingPendingCount } =
+    useGetRegistrationsCount(pendingParams, 'pending');
+
+  const { data: underReviewCountData, isLoading: isLoadingUnderReviewCount } =
+    useGetRegistrationsCount(underReviewParams, 'underreview');
+
+  const { data: rejectedCountData, isLoading: isLoadingRejectedCount } =
+    useGetRegistrationsCount(rejectedParams, 'rejected');
+
   const newData = data?.data;
+
+  console.log(successCountData);
+
   return (
     <>
       <Helmet>
@@ -37,28 +84,48 @@ export default function DashboardAppPage() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
-              total={1}
+              total={
+                isLoadingSuccessCount
+                  ? 0
+                  : successCountData.meta.pagination.total
+              }
               color='success'
               title='الطلبات المقبولة'
             />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title='الطبات الجديدة' total={1} color='info' />
+            <AppWidgetSummary
+              total={
+                isLoadingPendingCount
+                  ? 0
+                  : pendingCountData.meta.pagination.total
+              }
+              title='الطبات الجديدة'
+              color='info'
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
               title='طلبات تحت النظر'
-              total={1}
+              total={
+                isLoadingUnderReviewCount
+                  ? 0
+                  : underReviewCountData.meta.pagination.total
+              }
               color='warning'
             />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
+              total={
+                isLoadingRejectedCount
+                  ? 0
+                  : rejectedCountData.meta.pagination.total
+              }
               title='الطلبات المرفوضة'
-              total={1}
               color='error'
             />
           </Grid>
@@ -135,24 +202,6 @@ export default function DashboardAppPage() {
                 { label: 'United States', value: 1200 },
                 { label: 'United Kingdom', value: 1380 },
               ]}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppOrderTimeline
-              title='Order Timeline'
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: [
-                  '1983, orders, $4220',
-                  '12 Invoices have been paid',
-                  'Order #37745 from September',
-                  'New order placed #XF-2356',
-                  'New order placed #XF-2346',
-                ][index],
-                type: `order${index + 1}`,
-                time: faker.date.past(),
-              }))}
             />
           </Grid>
         </Grid>

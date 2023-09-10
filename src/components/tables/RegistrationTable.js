@@ -26,7 +26,8 @@ import Scrollbar from 'src/components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from 'src/sections/@dashboard/user';
 import { useGetRegistrations } from 'src/hooks/useRegistrationData';
-// mock
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +39,7 @@ const TABLE_HEAD = [
   { id: 'mobile', label: 'النقال', alignRight: false },
   { id: 'isReviewed', label: 'هل تم النظر بالطلب', alignRight: true },
   { id: 'status', label: 'الحالة', alignRight: false },
+  { id: '', label: 'مشاهدة البيانات' },
   { id: '' },
 ];
 
@@ -76,6 +78,7 @@ function applySortFilter(data, comparator, query) {
 }
 
 const RegistrationTable = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -96,6 +99,13 @@ const RegistrationTable = () => {
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
+  };
+
+  const handleShowDetails = (event, id) => {
+    console.log(id);
+    if (id) {
+      navigate(`/dashboard/registrations/${id}`);
+    }
   };
 
   const handleCloseMenu = () => {
@@ -200,8 +210,8 @@ const RegistrationTable = () => {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
+                      const { id } = row;
                       const {
-                        id,
                         orderNumber,
                         UniId,
                         name,
@@ -227,7 +237,7 @@ const RegistrationTable = () => {
                             />
                           </TableCell>
 
-                          <TableCell align='left'>{orderNumber}</TableCell>
+                          <TableCell align='left'>{`#${orderNumber}`}</TableCell>
 
                           <TableCell align='left'>{UniId}</TableCell>
 
@@ -264,6 +274,16 @@ const RegistrationTable = () => {
                             >
                               {status}
                             </Label>
+                          </TableCell>
+
+                          <TableCell align='right'>
+                            <IconButton
+                              size='large'
+                              color='inherit'
+                              onClick={(e) => handleShowDetails(e, id)}
+                            >
+                              <VisibilityIcon />
+                            </IconButton>
                           </TableCell>
 
                           <TableCell align='right'>

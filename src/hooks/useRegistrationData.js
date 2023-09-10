@@ -11,6 +11,28 @@ export const useGetRegistrations = (params) => {
   return getRegistrationsData;
 };
 
+export function useGetRegistrationsCount(params, status) {
+  const { getCountItems } = registrationApi;
+
+  const getRegistrationsData = useQuery({
+    queryKey: ['count', status],
+    queryFn: () => getCountItems(params),
+  });
+
+  return getRegistrationsData;
+}
+
+export const useGetRegistration = (params) => {
+  const { getItem } = registrationApi;
+
+  const getRegistrationsData = useQuery({
+    queryKey: ['registration'],
+    queryFn: () => getItem(params),
+  });
+
+  return getRegistrationsData;
+};
+
 const useRegistrationMutation = () => {
   const { createItem, updateItem, deleteItem } = registrationApi;
 

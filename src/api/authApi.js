@@ -18,7 +18,7 @@ const authApi = {
         return data;
       }
     } catch (error) {
-      throw error.response.data.message;
+      return error.response.data.error;
     }
   },
 
@@ -39,7 +39,7 @@ const authApi = {
         return data;
       }
     } catch (error) {
-      throw error;
+      return error;
     }
   },
 };

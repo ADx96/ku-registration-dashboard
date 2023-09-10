@@ -15,11 +15,13 @@ export function useLogin() {
   const { login, logout } = authApi;
   const mutation = useMutation({
     mutationFn: login,
-    onError: (error) => {
-      return error;
+    onError: (data) => {
+      return data.error;
     },
     onSuccess: (data) => {
-      navigate('/dashboard');
+      if (!data.message) {
+        navigate('/dashboard');
+      }
       return data;
     },
   });
