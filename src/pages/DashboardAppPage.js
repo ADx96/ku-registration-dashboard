@@ -68,8 +68,6 @@ export default function DashboardAppPage() {
 
   const newData = data?.data;
 
-  console.log(successCountData);
-
   return (
     <>
       <Helmet>

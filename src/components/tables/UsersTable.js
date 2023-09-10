@@ -18,6 +18,7 @@ import {
   TableContainer,
   TablePagination,
   CircularProgress,
+  Button,
 } from '@mui/material';
 // components
 import Iconify from 'src/components/iconify';
@@ -25,7 +26,7 @@ import Scrollbar from 'src/components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from 'src/sections/@dashboard/user';
 import { useGetUsers } from 'src/hooks/useUsers';
-// mock
+import UserForm from 'src/components/forms/UserForm';
 
 // ----------------------------------------------------------------------
 
@@ -72,6 +73,8 @@ function applySortFilter(array, comparator, query) {
 }
 
 const UsersTable = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -94,6 +97,10 @@ const UsersTable = () => {
 
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
   };
 
   const handleRequestSort = (event, property) => {
@@ -170,7 +177,11 @@ const UsersTable = () => {
           <Typography variant='h4' gutterBottom>
             طلبات التسجيل
           </Typography>
+          <Button onClick={handleOpenDialog} variant='contained'>
+            انشاء حساب
+          </Button>
         </Stack>
+        <UserForm openDialog={openDialog} setOpenDialog={setOpenDialog} />
 
         <Card>
           <UserListToolbar

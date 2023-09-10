@@ -15,10 +15,10 @@ export default function Button(theme) {
           height: 48,
         },
         containedInherit: {
-          color: theme.palette.grey[800],
+          color: theme.palette?.grey[800],
           boxShadow: theme.customShadows.z8,
           '&:hover': {
-            backgroundColor: theme.palette.grey[400],
+            backgroundColor: theme.palette?.grey[400],
           },
         },
         containedPrimary: {
