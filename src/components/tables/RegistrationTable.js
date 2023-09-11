@@ -102,7 +102,6 @@ const RegistrationTable = () => {
   };
 
   const handleShowDetails = (event, id) => {
-    console.log(id);
     if (id) {
       navigate(`/dashboard/registrations/${id}`);
     }
