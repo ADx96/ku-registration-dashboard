@@ -15,31 +15,31 @@ const useUsers = () => {
   const { createItem, updateItem, deleteItem } = usersApi;
 
   const createMutation = useMutation({
-    mutationFn: createItem,
-    onError: (error, variables, context) => {
-      // An error happened!
+    mutationFn: (data) => createItem(data),
+    onError: (error) => {
+      return error;
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data) => {
       return data;
     },
   });
 
   const updateMutation = useMutation({
     mutationFn: updateItem,
-    onError: (error, variables, context) => {
+    onError: (error) => {
       // An error happened!
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data) => {
       return data;
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteItem,
-    onError: (error, variables, context) => {
+    onError: (error) => {
       // An error happened!
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data) => {
       return data;
     },
   });
