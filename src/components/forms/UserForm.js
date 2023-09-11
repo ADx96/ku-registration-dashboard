@@ -65,7 +65,6 @@ const UserForm = ({ setOpenDialog, openDialog }) => {
       }
     } catch (e) {
       setShowError(true);
-
       console.error(e);
     }
   };
