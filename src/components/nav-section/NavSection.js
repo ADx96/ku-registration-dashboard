@@ -4,6 +4,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import { Box, List, ListItemText } from '@mui/material';
 //
 import { StyledNavItem, StyledNavItemIcon } from './styles';
+import { useGetUserData } from 'src/hooks/useLogin';
 
 // ----------------------------------------------------------------------
 
@@ -12,12 +13,21 @@ NavSection.propTypes = {
 };
 
 export default function NavSection({ data = [], ...other }) {
+  const { data: userData, isLoading } = useGetUserData();
+
+  if (isLoading) {
+    return <></>;
+  }
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
-        {data.map((item) => (
-          <NavItem key={item.title} item={item} />
-        ))}
+        {data.map((item) => {
+          return (
+            item.access.includes(userData.role.name) && (
+              <NavItem key={item.title} item={item} />
+            )
+          );
+        })}
       </List>
     </Box>
   );

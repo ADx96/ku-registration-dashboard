@@ -12,6 +12,7 @@ import {
   useGetRegistrations,
   useGetRegistrationsCount,
 } from 'src/hooks/useRegistrationData';
+import { useGetUserData } from 'src/hooks/useLogin';
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +55,8 @@ const underReviewParams = {
 export default function DashboardAppPage() {
   const { data, isLoading } = useGetRegistrations(params);
 
+  const { data: userData, isLoading: isLoadingUser } = useGetUserData();
+
   const { data: successCountData, isLoading: isLoadingSuccessCount } =
     useGetRegistrationsCount(successParams, 'success');
 
@@ -67,6 +70,12 @@ export default function DashboardAppPage() {
     useGetRegistrationsCount(rejectedParams, 'rejected');
 
   const newData = data?.data;
+
+  if (isLoadingUser || isLoading) {
+    return <CircularProgress />;
+  }
+
+  const newUserData = userData.role.name;
 
   return (
     <>
@@ -149,6 +158,7 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} md={6} lg={6}>
             <AppWebsiteVisits
+              hidden={!newUserData === 'registrationAdmin'}
               title='Website Visits'
               subheader='(+43%) than last year'
               chartLabels={[
@@ -189,6 +199,7 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} md={6} lg={6}>
             <AppConversionRates
+              hidden={!newUserData === 'registrationAdmin'}
               title='Conversion Rates'
               subheader='(+43%) than last year'
               chartData={[

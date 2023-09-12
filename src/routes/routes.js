@@ -24,20 +24,48 @@ export default function Router() {
         { element: <Navigate to='/dashboard/app' />, index: true },
         {
           path: 'app',
-          element: <ProtectedRoute children={<DashboardAppPage />} />,
+          element: (
+            <ProtectedRoute
+              allowedRoles={'any'}
+              children={<DashboardAppPage />}
+            />
+          ),
         },
-        { path: 'user', element: <ProtectedRoute children={<UserPage />} /> },
+        {
+          path: 'user',
+          element: (
+            <ProtectedRoute
+              allowedRoles={'registrationAdmin'}
+              children={<UserPage />}
+            />
+          ),
+        },
         {
           path: 'registrations',
-          element: <ProtectedRoute children={<RegistrationPage />} />,
+          element: (
+            <ProtectedRoute
+              allowedRoles={'any'}
+              children={<RegistrationPage />}
+            />
+          ),
         },
         {
           path: 'registrations/:id',
-          element: <ProtectedRoute children={<RegistrationDetailsPage />} />,
+          element: (
+            <ProtectedRoute
+              allowedRoles={'any'}
+              children={<RegistrationDetailsPage />}
+            />
+          ),
         },
         {
           path: 'reports',
-          element: <ProtectedRoute children={<ReportsPage />} />,
+          element: (
+            <ProtectedRoute
+              allowedRoles={'registrationAdmin'}
+              children={<ReportsPage />}
+            />
+          ),
         },
       ],
     },

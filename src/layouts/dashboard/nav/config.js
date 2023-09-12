@@ -18,21 +18,33 @@ const navConfig = [
     title: 'dashboard',
     path: '/dashboard/app',
     icon: <DashboardIcon />,
+    access: [
+      'registrationAdmin',
+      'registrationManagement',
+      'registrationReviewer',
+    ],
   },
   {
     title: 'registrations',
     path: '/dashboard/registrations',
     icon: <ListAltIcon />,
+    access: [
+      'registrationAdmin',
+      'registrationManagement',
+      'registrationReviewer',
+    ],
   },
   {
     title: 'reports',
     path: '/dashboard/reports',
     icon: <ArticleIcon />,
+    access: ['registrationAdmin'],
   },
   {
     title: 'user',
     path: '/dashboard/user',
     icon: icon('ic_user'),
+    access: ['registrationAdmin'],
   },
 ];
 
