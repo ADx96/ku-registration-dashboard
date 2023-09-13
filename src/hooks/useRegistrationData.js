@@ -37,7 +37,7 @@ const useRegistrationMutation = () => {
   const { createItem, updateItem, deleteItem } = registrationApi;
 
   const createMutation = useMutation({
-    mutationFn: createItem,
+    mutationFn: (data) => createItem(data),
     onError: (error, variables, context) => {
       // An error happened!
     },
@@ -47,7 +47,7 @@ const useRegistrationMutation = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: updateItem,
+    mutationFn: (id, data) => updateItem(),
     onError: (error, variables, context) => {
       // An error happened!
     },
@@ -57,7 +57,7 @@ const useRegistrationMutation = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: deleteItem,
+    mutationFn: (id) => deleteItem(id),
     onError: (error, variables, context) => {
       // An error happened!
     },

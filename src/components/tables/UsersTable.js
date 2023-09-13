@@ -25,8 +25,10 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from 'src/sections/@dashboard/user';
-import { useGetUsers } from 'src/hooks/useUsers';
+import useUsers, { useGetUsers } from 'src/hooks/useUsers';
+
 import UserForm from 'src/components/forms/UserForm';
+import Dialog from 'src/components/Dialog';
 
 // ----------------------------------------------------------------------
 
@@ -77,6 +79,10 @@ const UsersTable = () => {
 
   const [open, setOpen] = useState(null);
 
+  const [userId, setUserId] = useState(null);
+
+  const [openPopup, setOpenPopup] = useState(false);
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -90,8 +96,10 @@ const UsersTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const { data, isLoading } = useGetUsers();
+  const { deleteMutation } = useUsers();
 
-  const handleOpenMenu = (event) => {
+  const handleOpenMenu = (event, id) => {
+    setUserId(id);
     setOpen(event.currentTarget);
   };
 
@@ -99,10 +107,18 @@ const UsersTable = () => {
     setOpen(null);
   };
 
+  const handleOpenPopUp = () => {
+    handleCloseMenu();
+    setOpenPopup(true);
+  };
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
 
+  const handleClosePopUp = () => {
+    setOpenPopup(false);
+  };
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -142,6 +158,10 @@ const UsersTable = () => {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+  };
+
+  const handleDelete = async () => {
+    await deleteMutation.mutateAsync(userId);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -250,7 +270,7 @@ const UsersTable = () => {
                             <IconButton
                               size='large'
                               color='inherit'
-                              onClick={handleOpenMenu}
+                              onClick={(e) => handleOpenMenu(e, id)}
                             >
                               <Iconify icon={'eva:more-vertical-fill'} />
                             </IconButton>
@@ -328,11 +348,17 @@ const UsersTable = () => {
           Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleOpenPopUp} sx={{ color: 'error.main' }}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
       </Popover>
+      <Dialog
+        title='Are You Sure You want to Delete?'
+        openPopup={openPopup}
+        handleCloseDialog={handleClosePopUp}
+        handleSubmit={handleDelete}
+      />
     </>
   );
 };

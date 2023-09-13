@@ -25,9 +25,12 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from 'src/sections/@dashboard/user';
-import { useGetRegistrations } from 'src/hooks/useRegistrationData';
+import useRegistrationMutation, {
+  useGetRegistrations,
+} from 'src/hooks/useRegistrationData';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
+import Dialog from 'src/components/Dialog';
 
 // ----------------------------------------------------------------------
 
@@ -83,11 +86,15 @@ const RegistrationTable = () => {
 
   const [page, setPage] = useState(0);
 
+  const [openPopup, setOpenPopup] = useState(false);
+
   const [order, setOrder] = useState('asc');
 
   const [selected, setSelected] = useState([]);
 
   const [orderBy, setOrderBy] = useState('name');
+
+  const [userId, setUserId] = useState(null);
 
   const [filterName, setFilterName] = useState('');
 
@@ -95,9 +102,12 @@ const RegistrationTable = () => {
 
   const { data, isLoading } = useGetRegistrations();
 
+  const { deleteMutation } = useRegistrationMutation();
+
   const newData = data?.data;
 
-  const handleOpenMenu = (event) => {
+  const handleOpenMenu = (event, id) => {
+    setUserId(id);
     setOpen(event.currentTarget);
   };
 
@@ -127,6 +137,14 @@ const RegistrationTable = () => {
       return;
     }
     setSelected([]);
+  };
+
+  const handleClosePopUp = () => {
+    setOpenPopup(false);
+  };
+
+  const handleDelete = async () => {
+    await deleteMutation.mutateAsync(userId);
   };
 
   const handleClick = (event, id) => {
@@ -289,7 +307,7 @@ const RegistrationTable = () => {
                             <IconButton
                               size='large'
                               color='inherit'
-                              onClick={handleOpenMenu}
+                              onClick={(event) => handleOpenMenu(event, id)}
                             >
                               <Iconify icon={'eva:more-vertical-fill'} />
                             </IconButton>
@@ -372,6 +390,12 @@ const RegistrationTable = () => {
           Delete
         </MenuItem>
       </Popover>
+      <Dialog
+        title='Are You Sure You want to Delete?'
+        openPopup={openPopup}
+        handleCloseDialog={handleClosePopUp}
+        handleSubmit={handleDelete}
+      />
     </>
   );
 };

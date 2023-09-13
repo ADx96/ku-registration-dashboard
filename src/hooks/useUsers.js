@@ -35,7 +35,7 @@ const useUsers = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: deleteItem,
+    mutationFn: (id) => deleteItem(id),
     onError: (error) => {
       // An error happened!
     },
