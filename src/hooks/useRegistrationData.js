@@ -1,13 +1,15 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import registrationApi from 'src/api/registrationApi';
 
 export const useGetRegistrations = (params) => {
   const { getItems } = registrationApi;
 
   const getRegistrationsData = useQuery({
-    queryKey: ['registrations'],
+    queryKey: ['registrations', params],
+    keepPreviousData: true,
     queryFn: () => getItems(params),
   });
+
   return getRegistrationsData;
 };
 
@@ -36,12 +38,17 @@ export const useGetRegistration = (params) => {
 const useRegistrationMutation = () => {
   const { createItem, updateItem, deleteItem } = registrationApi;
 
+  const queryClient = useQueryClient();
+
   const createMutation = useMutation({
     mutationFn: (data) => createItem(data),
     onError: (error, variables, context) => {
       // An error happened!
     },
     onSuccess: (data, variables, context) => {
+      queryClient.setQueryData(['registrations', data.id], data);
+      queryClient.invalidateQueries(['registrations'], { exact: true });
+
       return data;
     },
   });
@@ -52,6 +59,10 @@ const useRegistrationMutation = () => {
       // An error happened!
     },
     onSuccess: (data, variables, context) => {
+      queryClient.setQueryData(['registrations', data.id], data);
+
+      queryClient.invalidateQueries(['registrations'], { exact: true });
+
       return data;
     },
   });
@@ -62,6 +73,10 @@ const useRegistrationMutation = () => {
       // An error happened!
     },
     onSuccess: (data, variables, context) => {
+      queryClient.setQueryData(['registrations', data.id], data);
+
+      queryClient.invalidateQueries(['registrations'], { exact: true });
+
       return data;
     },
   });

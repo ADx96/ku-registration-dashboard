@@ -75,8 +75,11 @@ const Details = () => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography textAlign={'center'} variant='h4'>
-              البيانات الشخصية
+              البيانات
             </Typography>
+            <Container style={{ marginTop: '20px' }}>
+              <Divider light> البيانات الشخصية</Divider>
+            </Container>
           </Grid>
           <Container style={{ marginTop: '20px' }}>
             <Divider light />
@@ -111,7 +114,7 @@ const Details = () => {
                 (status === 'rejected' && 'error') ||
                 (status === 'accepted' && 'success') ||
                 (status === 'underreview' && 'info') ||
-                (status === 'underreview' && 'warning') ||
+                (status === 'reviewed' && 'warning') ||
                 (status === 'pending' && 'warning')
               }
             >
@@ -122,20 +125,15 @@ const Details = () => {
             <Typography variant='h5'>تاريخ الطلب</Typography>
             <Typography variant='p'>{createdAt}</Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Typography textAlign={'center'} variant='h4'>
-              العنوان
-            </Typography>
-          </Grid>
           <Container style={{ marginTop: '20px' }}>
-            <Divider light />
+            <Divider light>العنوان</Divider>
           </Container>
           <Grid textAlign={'center'} item xs={12} md={4}>
             <Typography variant='h5'>المحافظة</Typography>
             <Typography variant='p'>{governor}</Typography>
           </Grid>
           <Grid textAlign={'center'} item xs={12} md={4}>
-            <Typography variant='h5'>المديتة</Typography>
+            <Typography variant='h5'>المدينة</Typography>
             <Typography variant='p'>{city}</Typography>
           </Grid>
           <Grid textAlign={'center'} item xs={12} md={4}>
@@ -150,14 +148,10 @@ const Details = () => {
             <Typography variant='h5'>المنزل</Typography>
             <Typography variant='p'>{house}</Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Typography textAlign={'center'} variant='h4'>
-              المقرر
-            </Typography>
-          </Grid>
           <Container style={{ marginTop: '20px' }}>
-            <Divider light />
+            <Divider light> المقرر </Divider>
           </Container>
+
           <Grid textAlign={'center'} item xs={12} md={4}>
             <Typography variant='h5'>الفصل</Typography>
             <Typography variant='p'>{semester}</Typography>
@@ -198,6 +192,9 @@ const Details = () => {
               ))}
             </List>
           </Grid>
+          <Container style={{ marginTop: '20px' }}>
+            <Divider light />
+          </Container>
           <Grid item xs={12} justifyContent={'center'} alignItems={'center'}>
             <Container>
               <Stack

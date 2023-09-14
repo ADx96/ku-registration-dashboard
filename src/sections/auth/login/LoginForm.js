@@ -104,7 +104,7 @@ export default function LoginForm() {
           sx={{ my: 2 }}
         >
           <FormControlLabel
-            control={<Checkbox checked={true} name='remember' />}
+            control={<Checkbox checked={false} name='remember' />}
             label='تذكرني'
           />
         </Stack>

@@ -111,7 +111,7 @@ const RegistrationTable = () => {
     setOpen(event.currentTarget);
   };
 
-  const handleShowDetails = (event, id) => {
+  const handleShowDetails = (id) => {
     if (id) {
       navigate(`/dashboard/registrations/${id}`);
     }
@@ -285,7 +285,7 @@ const RegistrationTable = () => {
                                 (status === 'rejected' && 'error') ||
                                 (status === 'accepted' && 'success') ||
                                 (status === 'underreview' && 'info') ||
-                                (status === 'underreview' && 'warning') ||
+                                (status === 'reviewed' && 'warning') ||
                                 (status === 'pending' && 'warning')
                               }
                             >
@@ -297,7 +297,7 @@ const RegistrationTable = () => {
                             <IconButton
                               size='large'
                               color='inherit'
-                              onClick={(e) => handleShowDetails(e, id)}
+                              onClick={(e) => handleShowDetails(id)}
                             >
                               <VisibilityIcon />
                             </IconButton>
@@ -353,9 +353,9 @@ const RegistrationTable = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component='div'
-            count={[].length}
-            rowsPerPage={rowsPerPage}
-            page={page}
+            count={data.meta.pagination.pageCount}
+            rowsPerPage={data.meta.pagination.pageSize}
+            page={data.meta.pagination.page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />

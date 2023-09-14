@@ -141,7 +141,7 @@ export default function DashboardAppPage() {
               <CircularProgress />
             ) : (
               <AppNewsUpdate
-                title='News Update'
+                title='احدث الطلبات'
                 list={newData.map((data, index) => ({
                   id: data.id,
                   UniId: data.attributes.UniId,
