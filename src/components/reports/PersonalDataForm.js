@@ -130,7 +130,6 @@ const PersonalDataForm = ({
                 Select Status
               </InputLabel>
               <Select
-                hidden={selected.value4}
                 labelId='demo-simple-select-helper-label'
                 id='demo-simple-select-helper'
                 value={paramsData.status}

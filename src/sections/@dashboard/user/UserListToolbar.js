@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 // component
 import Iconify from '../../../components/iconify';
+import SearchFilterList from './SearchFilterList';
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +49,9 @@ UserListToolbar.propTypes = {
 export default function UserListToolbar({
   numSelected,
   filterName,
+  handleKeyPress,
   onFilterName,
+  placeholder,
 }) {
   return (
     <StyledRoot
@@ -64,19 +67,23 @@ export default function UserListToolbar({
           {numSelected} selected
         </Typography>
       ) : (
-        <StyledSearch
-          value={filterName}
-          onChange={onFilterName}
-          placeholder='Search Registration...'
-          startAdornment={
-            <InputAdornment position='start'>
-              <Iconify
-                icon='eva:search-fill'
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
-              />
-            </InputAdornment>
-          }
-        />
+        <>
+          <StyledSearch
+            value={filterName}
+            onChange={onFilterName}
+            placeholder={placeholder}
+            onKeyDown={handleKeyPress}
+            startAdornment={
+              <InputAdornment position='start'>
+                <Iconify
+                  icon='eva:search-fill'
+                  sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                />
+              </InputAdornment>
+            }
+          />
+          <SearchFilterList />
+        </>
       )}
 
       {numSelected > 0 ? (

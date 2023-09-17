@@ -1,6 +1,8 @@
 import { Container, Stack, Card, Typography } from '@mui/material';
 import React from 'react';
 import DataExportForm from './DataExportForm';
+import CustomTabs from 'src/components/tabs';
+import UserDataExport from './UserDataExport';
 
 const Reports = () => {
   return (
@@ -17,7 +19,10 @@ const Reports = () => {
       </Stack>
 
       <Card>
-        <DataExportForm />
+        <CustomTabs
+          userComponent={<UserDataExport />}
+          registrationComponent={<DataExportForm />}
+        />
       </Card>
     </Container>
   );

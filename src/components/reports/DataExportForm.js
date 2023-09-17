@@ -4,8 +4,12 @@ import ExportButton from './ExportButton';
 import PersonalDataForm from './PersonalDataForm';
 import AddressDataForm from './AddressDataForm';
 import SubjectDataForm from './SubjectDataForm';
+import registrationApi from 'src/api/registrationApi';
+import { getGovernor, removeEmptyKeys } from 'src/helpers/helpers';
 
 const DataExportForm = () => {
+  const [newData, setNewData] = useState([]);
+
   const [selected, setSelected] = useState({
     value1: false,
     value2: false,
@@ -80,6 +84,75 @@ const DataExportForm = () => {
     setSelectedSubject({ ...selectedSubject, [name]: value });
   };
 
+  const newParams = {
+    filters: {
+      name: { $contains: paramsData.name },
+      UniId: paramsData.UniId && { $eq: paramsData.UniId },
+      orderNumber: { $eq: paramsData.orderNumber },
+      status: { $eq: paramsData.status },
+      registrationAdress: {
+        city: { $contains: paramsData.address.city },
+        governor: { $eq: getGovernor(paramsData.address.governor) },
+      },
+      registrationSubject: {
+        fall: { $eq: paramsData.subject.fall },
+        semester: { $eq: paramsData.subject.semester },
+        subjects: { $contains: paramsData.subject.subjects },
+      },
+    },
+  };
+
+  const handleGetData = async () => {
+    const filterParams = removeEmptyKeys(newParams);
+    const { getItems } = registrationApi;
+    const data = await getItems(filterParams);
+    if (data) {
+      const mappedData = data.data.map((data) => {
+        const {
+          name,
+          UniId,
+          comments,
+          createdAt,
+          email,
+          isReviewed,
+          mobile,
+          orderNumber,
+          registrationAdress,
+          registrationSubject,
+          status,
+        } = data.attributes;
+
+        const { block, city, governor, street, house } =
+          registrationAdress.data.attributes;
+
+        const { credits, fall, finishedCredits, reason, semester } =
+          registrationSubject.data.attributes;
+
+        return {
+          orderNumber,
+          name,
+          UniId,
+          email,
+          mobile,
+          comments,
+          createdAt,
+          isReviewed,
+          status,
+          block,
+          city,
+          governor,
+          street,
+          house,
+          credits,
+          fall,
+          finishedCredits,
+          reason,
+          semester,
+        };
+      });
+      setNewData(mappedData);
+    }
+  };
   return (
     <Grid container spacing={3} paddingX={'30px'}>
       <Grid item xs={12}>
@@ -116,7 +189,7 @@ const DataExportForm = () => {
         selectedSubject={selectedSubject}
       />
       <Grid item xs={12} md={3}>
-        <ExportButton paramsData={paramsData} />
+        <ExportButton handleGetData={handleGetData} newData={newData} />
       </Grid>
     </Grid>
   );

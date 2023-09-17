@@ -207,6 +207,7 @@ const UsersTable = () => {
           <UserListToolbar
             numSelected={selected.length}
             filterName={filterName}
+            placeholder={'Search by username or email'}
             onFilterName={handleFilterByName}
           />
 

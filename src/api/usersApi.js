@@ -1,6 +1,6 @@
 import { axiosInstance } from './Instance/Instance';
 
-const registrationApi = {
+const userApi = {
   createItem: async (sendData) => {
     try {
       const { data } = await axiosInstance.post('/users', sendData);
@@ -11,11 +11,12 @@ const registrationApi = {
   },
 
   // Read
-  getItems: async () => {
+  getItems: async (params) => {
     try {
       const { data } = await axiosInstance.get('/users', {
         params: {
           populate: '*',
+          ...params,
           filters: {
             role: {
               name: {
@@ -64,4 +65,4 @@ const registrationApi = {
   },
 };
 
-export default registrationApi;
+export default userApi;

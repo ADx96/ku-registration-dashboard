@@ -31,6 +31,7 @@ import useRegistrationMutation, {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import Dialog from 'src/components/Dialog';
+import { removeEmptyKeys } from 'src/helpers/helpers';
 
 // ----------------------------------------------------------------------
 
@@ -74,7 +75,8 @@ function applySortFilter(data, comparator, query) {
   if (query) {
     return filter(
       data,
-      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (data) =>
+        data.attributes.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -85,6 +87,8 @@ const RegistrationTable = () => {
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
+
+  const [params, setParams] = useState('');
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -100,7 +104,7 @@ const RegistrationTable = () => {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const { data, isLoading } = useGetRegistrations();
+  const { data, isLoading, refetch } = useGetRegistrations(params);
 
   const { deleteMutation } = useRegistrationMutation();
 
@@ -175,8 +179,24 @@ const RegistrationTable = () => {
   };
 
   const handleFilterByName = (event) => {
-    setPage(0);
     setFilterName(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    const newParams = {
+      filters: {
+        name: { $contains: filterName },
+        UniId: { $eq: filterName },
+        orderNumber: { $contains: filterName },
+      },
+    };
+
+    const filterParams = removeEmptyKeys(newParams);
+
+    if (event.key === 'Enter') {
+      setParams(filterParams);
+      refetch();
+    }
   };
 
   const emptyRows =
@@ -206,8 +226,10 @@ const RegistrationTable = () => {
 
         <Card>
           <UserListToolbar
+            handleKeyPress={handleKeyPress}
             numSelected={selected.length}
             filterName={filterName}
+            placeholder={'Search by name or uni id or order number'}
             onFilterName={handleFilterByName}
           />
 
